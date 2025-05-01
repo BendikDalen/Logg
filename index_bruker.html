@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Treningslogg CSK Herrer</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #ffffff; color: #000; }
+    h1 { text-align: center; color: #fff; background-color: #d00000; padding: 10px; border-radius: 6px; }
+    form, .admin-link { max-width: 700px; margin: 0 auto 40px; background: white; padding: 20px; border-radius: 8px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    .admin-link { text-align: center; background: none; padding: 0; }
+    .admin-link a { color: blue; text-decoration: underline; }
+    .logo { display: block; margin: 0 auto 20px; max-width: 150px; }
+    #styrkeType { display: none; }
+  </style>
+</head>
+<body>
+  <img src="CSK - Logo.png" alt="CSK Logo" class="logo" />
+  <h1>Treningslogg CSK Herrer</h1>
+
+  <form id="loggSkjema">
+    <label>Navn
+      <select name="navn">
+        <option>Tage Hestbek Nielsen</option>
+        <option>Øyvind Varpe</option>
+        <option>Elias Engesvik</option>
+        <option>Helge Strømman</option>
+        <option>Didrik Skjevik</option>
+        <option>Erik Magnus Jakobsen</option>
+        <option>Mathias Svendsen</option>
+        <option>Fredrik Røset</option>
+        <option>Simen Haugen</option>
+        <option>Magnus Vatne</option>
+        <option>Stein Holte Reppe</option>
+        <option>Magnus Bjørnsen</option>
+        <option>Simen Valsø Nicolaysen</option>
+        <option>Stian Handberg Nielsen</option>
+        <option>Magnus Johannessen</option>
+        <option>Julius Hjelmungen</option>
+        <option>Herman Schanke</option>
+        <option>Sokrates Færø Ljøkelsøy</option>
+        <option>Lukas Bjerkgård Lund</option>
+        <option>Elias Aarsand</option>
+        <option>Jesper Myrland Jensen</option>
+        <option>Per Martin Almberg</option>
+        <option>Bendik Dalen</option>
+      </select>
+    </label>
+    <label>Dato
+      <input type="date" name="dato" required />
+    </label>
+    <label>Type økt
+      <select name="type" id="typeOkt">
+        <option>Håndball</option>
+        <option>Styrke</option>
+        <option>Løping</option>
+        <option>Mobilitet</option>
+        <option>Kamp</option>
+        <option>HIIT</option>
+        <option>Intervaller</option>
+        <option>Annet</option>
+      </select>
+    </label>
+    <label id="styrkeType">Styrketype
+      <select name="styrketype">
+        <option>Underkropp</option>
+        <option>Overkropp</option>
+        <option>Helkropp</option>
+      </select>
+    </label>
+    <label>Varighet (minutter)
+      <input type="number" name="varighet" required />
+    </label>
+    <label>Intensitet (1–10)
+      <select name="intensitet">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    </label>
+    <label>Hvordan følte du deg (1–10)
+      <select name="form">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    </label>
+    <label>Kommentar
+      <textarea name="kommentar" rows="3"></textarea>
+    </label>
+    <button type="submit">Send inn</button>
+  </form>
+
+  <div class="admin-link">
+    <p><a href="admin.html" target="_blank">Gå til treneroversikt</a></p>
+  </div>
+
+  <script>
+    const skjema = document.getElementById('loggSkjema');
+    const typeOkt = document.getElementById('typeOkt');
+    const styrkeType = document.getElementById('styrkeType');
+
+    typeOkt.addEventListener('change', () => {
+      styrkeType.style.display = typeOkt.value === 'Styrke' ? 'block' : 'none';
+    });
+
+    function lagreTilLocalStorage(data) {
+      const eksisterende = JSON.parse(localStorage.getItem('treningslogg') || '[]');
+      eksisterende.push(data);
+      localStorage.setItem('treningslogg', JSON.stringify(eksisterende));
+    }
+
+    skjema.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(skjema));
+      lagreTilLocalStorage(data);
+      skjema.reset();
+      styrkeType.style.display = 'none';
+      alert("Økt lagret!");
+    });
+  </script>
+</body>
+</html>
